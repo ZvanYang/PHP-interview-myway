@@ -17,3 +17,20 @@ array(3) {
   string(5) "world"
 }
 ```
+
+
+## 2. 以下会输出什么？
+
+```
+<?php
+$a = array(1,2,3,4);
+foreach($a as &$v){
+	echo $v;  // 1,1,2,4,
+     $v *= $v;
+	echo $v;  // 3,9,4,16
+} 
+foreach($a as $v){
+     echo $v; // 1,4,9,9
+}
+
+```
