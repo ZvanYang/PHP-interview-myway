@@ -40,7 +40,7 @@ foreach($a as $v){
 ## csrf 
 1. 使用http_only
 2. token, token有过期的一个缺点
-3. 
+
 ## xss
 1. 对输入进行转义
 2. 对输出进行过滤
@@ -57,9 +57,6 @@ foreach($a as $v){
 
 1. 解决缓存穿透问题，只有主播请求的时候，才将数据缓存到内存里面，避免大量用户来直接请求数据库。
 2. redis 使用集群，防止redis不可用。和哨兵
-3. 
-
-
 
 ## 分布式事务
 分段提交
@@ -98,6 +95,7 @@ tail -f access.log | awk -F '[' '{print $2}' | awk '{print $1}' | uniq -c
 
 ## PHP超时
 xphrof
+
 脚本执行时间
 ## php预处理函数
 1. htmlspecialchars_decode()	把一些预定义的 HTML 实体转换为字符。
@@ -587,8 +585,7 @@ class ListNode {
 
 
 
-## 
-40. php保存序列化对象到session中，并可以从session中获取序列化对象的值，用什么序列化函数？
+## 40. php保存序列化对象到session中，并可以从session中获取序列化对象的值，用什么序列化函数？
 
 • serialize()函数序列化对象; unserialize()函数还原序列化对象。
 ## 41.php的缓存机制，举例说明？
