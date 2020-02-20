@@ -58,6 +58,7 @@ sync_binlog 这个参数设置成 1 的时候，表示每次事务的 binlog 都
 ## mvcc解决了什么问题？（2月 16  头条）
 1. 行锁，并发，事务回滚。
 只会读取事务开始之前提交的数据。针对每一个事务都有一个事务id 的概念，是严格递增的，回滚的时候，也会按顺序回滚的。
+
 ## 索引设计成树形，和SQL的需求相关。为什么不是哈希。
  对于这样一个单行查询的SQL需求：
 
@@ -79,7 +80,8 @@ select * from t where name=”zhaoyang”;
 
 哈希型的索引，时间复杂度会退化为O(n)，而树型的“有序”特性，依然能够保持O(log(n)) 的高效率。
 
-## 有个很大的日志表会选用哪个索引？innodb，还有就是可以根据时间做分表。还有就是加索引。
+## 有个很大的日志表会选用哪个索引？
+innodb，还有就是可以根据时间做分表。还有就是加索引。
 
 ## 总结
 1. 常见并发控制保证数据一致性的方法有锁，数据多版本；
@@ -296,6 +298,7 @@ b+树可以把索引完全加载至内存中。支持多路，多路的好处：
 3. 内存不够了，需要刷一下数据
 4. MySQL在空闲的时候，需要刷一下数据
 5. MySQL在关闭的时候需要刷一下数据
+
 ## 10. explain
 https://blog.csdn.net/riemann_/article/details/91349161
 
@@ -313,7 +316,8 @@ Varchar是变长，节省存储空间，char是固定长度。查找效率要cha
 - • MyISAM支持全文类型索引，而InnoDB不支持全文索引。
 - • MyISAM相对简单，所以在效率上要优于InnoDB，小型应用可以考虑使用MyISAM。
 - • MyISAM表是保存成文件的形式，在跨平台的数据转移中使用MyISAM存储会省去不少的麻烦。
-- • InnoDB表比MyISAM表更安全，可以在保证数据不会丢失的情况下，切换非事务表到事务表（alter table tablename type=innodb）
+
+InnoDB表比MyISAM表更安全，可以在保证数据不会丢失的情况下，切换非事务表到事务表（alter table tablename type=innodb）
 ## 15.写出mysql中，插入数据，读出数据，更新数据的语句
 INSERT INTO 表名 VALUES (””,””)；
 SELECT * FROM 表名；。
@@ -335,7 +339,8 @@ i/o线程去请求主库 的binlog，并将得到的binlog日志写到relay log�
 主库会生成一个 log dump 线程，用来给从库 i/o线程传binlog；
 SQL 线程，会读取relay log文件中的日志，并解析成具体操作，来实现主从的操作一致，而最终数据一致；
 ## 18.mysql中创建表user的脚本？
-• user(uid,name,groupid)其中groupid是外键
+``` 
+user(uid,name,groupid)其中groupid是外键
 create table user(
     uid int not null auto_increment,
     name var100) not null,
@@ -343,6 +348,7 @@ create table user(
     primary key(uid),
     foreign key(groupid) references group(groupid) on cascade
 )
+```
 
 ## 19. mysql命令行下连接数据库，选择数据库test，查询表user结构，查询数据库test的所有表信息？
 
