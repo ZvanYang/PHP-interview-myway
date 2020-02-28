@@ -1,1 +1,1 @@
-![git](/images/git/git.png)
+![git](images/git/git.png)
