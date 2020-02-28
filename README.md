@@ -15,6 +15,7 @@
 ##### [git](git.md)
 ##### [nginx](nginx.md)
 ##### kafka
+##### [rabbitmq](rabbitmq.md)
 # 项目
 ##### [问题](问题.md)
 ##### [公司介绍](公司介绍.md)
