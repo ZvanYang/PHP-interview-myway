@@ -632,9 +632,6 @@ unset($b);
 $b="world";
 $a=? ; =>"hello"
 ```
-
-
-
 ## 46.APP_ID APP_SECRET 
 可以通过这些，去获得授权。
 
@@ -649,8 +646,6 @@ $handle=fopen("test.txt","r");
 $contents=fread($handle,300);
 fclose($handle);
 ```
-
-
 ## 50.PHP获取客户端和服务器端IP客户端IP相关的变量
 $_SERVER['REMOTE_ADDR'] 客户端IP，有可能是用户的IP，也可能是代理的IP。(这个就是获取客户端的ip)
 
