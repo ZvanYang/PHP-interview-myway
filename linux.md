@@ -6,3 +6,25 @@
 cat log.txt|awk -F" " '{print $1}' |sort|uniq -c|sort -nrt " "|awk -F" " 'print &2' |head -10
 
 cat url.log | sort | uniq -c |sort -n -r -k 1 -t   ' ' | awk -F  '//'  '{print $2}' | head -10
+
+## 常用的 linux 命令有哪些
+````
+touch 
+mkdir 
+rm 
+ls 
+cd 
+chmod 
+chgrp 
+chown 
+systemctl 
+ps 
+top 
+df 
+kill
+ping
+iostat
+scp
+lftp
+screen。
+````

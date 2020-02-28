@@ -131,4 +131,13 @@ fpm的master进程与worker进程之间不会直接进行通信，master通过�
 
 worker会将自己的状态更新到fpm_scoreboard_proc_s->request_stage，master就是通过这个字段来判断worker是否是空闲。
 
+# PHP的四种工作模式
+1. cgi 通用网关接口（Common Gateway Interface）
+1. fast-cgi 常驻（long-live）型的 CGI
+1. cli  命令行运行   （Command Line Interface）
+1. mod_php模式 （apache等web服务器运行的模块模式）
+
+# 遇到过一个问题，开多少进程合适？曾经被问了两遍。
+各位可以补充下，这个问题，应该是去看自己的硬件资源来决定。
+
 
