@@ -679,3 +679,53 @@ https://yq.aliyun.com/articles/514030
 3、数组结构的改变，数组元素和hash映射表在php5中会存入多个内存块，php7尽量将它们分配在同一块内存里，降低了内存占用、提升了cpu缓存命中率。
 
 4、 **改进了函数的调用机制** ，通过对参数传递环节的优化，减少一些指令操作，提高了执行效率。
+
+## null 在 == 相等的值。
+'' "" 0 '0' array() false 
+
+## PHP的数据，key的 数字也好，string也好，是如何实现的。
+存放记录的数组称做散列表，这个数组用来存储value，而value具体在数组中的存储位置由映射函数根据key计算确定，映射函数可以采用取模的方式，key可以通过一些譬如**“times 33”**的算法得到一个整形值，然后与数组总大小**取模**得到在散列表中的存储位置。这是一个普通散列表的实现，PHP散列表的实现整体也是这个思路，只是有几个特殊的地方，下面就是PHP中HashTable的数据结构：
+```
+//Bucket：散列表中存储的元素
+typedef struct _Bucket {
+    zval              val; //存储的具体value，这里嵌入了一个zval，而不是一个指针
+    zend_ulong        h;   //key根据times 33计算得到的哈希值，或者是数值索引编号
+    zend_string      *key; //存储元素的key
+} Bucket;
+
+//HashTable结构
+typedef struct _zend_array HashTable;
+struct _zend_array {
+    zend_refcounted_h gc;
+    union {
+        struct {
+            ZEND_ENDIAN_LOHI_4(
+                    zend_uchar    flags,
+                    zend_uchar    nApplyCount,
+                    zend_uchar    nIteratorsCount,
+                    zend_uchar    reserve)
+        } v;
+        uint32_t flags;
+    } u;
+    uint32_t          nTableMask; //哈希值计算掩码，等于nTableSize的负值(nTableMask = -nTableSize)
+    Bucket           *arData;     //存储元素数组，指向第一个Bucket
+    uint32_t          nNumUsed;   //已用Bucket数
+    uint32_t          nNumOfElements; //哈希表有效元素数
+    uint32_t          nTableSize;     //哈希表总大小，为2的n次方
+    uint32_t          nInternalPointer;
+    zend_long         nNextFreeElement; //下一个可用的数值索引,如:arr[] = 1;arr["a"] = 2;arr[] = 3;  则nNextFreeElement = 2;
+    dtor_func_t       pDestructor;
+};
+```
+HashTable中有两个非常相近的值:nNumUsed、nNumOfElements，nNumOfElements表示哈希表已有元素数，那这个值不跟nNumUsed一样吗？为什么要定义两个呢？实际上它们有不同的含义，当将一个元素从哈希表删除时并不会将对应的Bucket移除，而是将Bucket存储的zval修改为IS_UNDEF，只有扩容时发现nNumOfElements与nNumUsed相差达到一定数量(这个数量是:ht->nNumUsed - ht->nNumOfElements > (ht->nNumOfElements >> 5))时才会将已删除的元素全部移除，重新构建哈希表。所以nNumUsed>=nNumOfElements。
+
+HashTable中另外一个非常重要的值arData，这个值指向存储元素数组的第一个Bucket，插入元素时按顺序 依次插入 数组，比如第一个元素在arData[0]、第二个在arData[1]...arData[nNumUsed]。PHP数组的有序性正是通过arData保证的，这是第一个与普通散列表实现不同的地方。
+
+既然arData并不是按key映射的散列表，那么映射函数是如何将key与arData中的value建立映射关系的呢？
+
+实际上这个散列表也在arData中，比较特别的是散列表在ht->arData内存之前，分配内存时这个散列表与Bucket数组一起分配，arData向后移动到了Bucket数组的起始位置，并不是申请内存的起始位置，这样散列表可以由arData指针向前移动访问到，即arData[-1]、arData[-2]、arData[-3]......散列表的结构是uint32_t，它保存的是value在Bucket数组中的位置。
+
+所以，整体来看HashTable主要依赖arData实现元素的存储、索引。插入一个元素时先将元素按先后顺序插入Bucket数组，位置是idx，再根据key的哈希值映射到散列表中的某个位置nIndex，将idx存入这个位置；查找时先在散列表中映射到nIndex，得到value在Bucket数组的位置idx，再从Bucket数组中取出元素。
+
+## 数组通过key 查询比较快，还是通过value？
+key。具体原因，待补充。

@@ -455,3 +455,19 @@ union是产生的两个记录集(字段要一样的)并在一起，成为一个�
 ## int(4)和int(11)的区别
 超过4的话，其实是没有影响的， 然后使用zerofill的时候其实是能看到的吧。
 
+# select sum(colomn3),column2 from tableA where column1>0 group by column2 having sum(colomn3)>0 order by column2;
+1. from子句组装来自不同数据源的数据；
+2. where子句基于指定的条件对记录行进行筛选；
+3. group by子句将数据划分为多个分组；
+4. 使用聚集函数进行计算；
+5. 使用having子句筛选分组；
+6. 计算所有的表达式；
+7. select 的字段；
+8. 使用order by对结果集进行排序。
+
+# 你常用的mysql命令有啥？
+select  where from updata delete drop truncate  create alter insert 
+
+use table;
+show tables; show databases;
+
