@@ -49,7 +49,7 @@ client_max_body_size 10M 设置上传文件大小限制
 proxy_read_timeout 60
 proxy_send_timeout 60
 
-# 如果包含正在处理的进程，会报什么错误？
+# 如果包含正在处理的进程，会报什么错误？【百度面试】
 ```
 <?php
 exec("sleep 5");
@@ -62,8 +62,7 @@ process_control_timeout 设置子进程接受主进程复用信号的超时时�
 max_requests意味着，子进程处理多少请求之后，就会关闭。因为子进程差不多都能同时打满，同时关闭，所以会出现502的问题。默认max_request为500个。可以修改这个参数。或者增加机器的内存，修改参数。
 
 # NGINX的负载均衡
-ip
- hash 根据ip进行hash可以解决session问题
+ip hash 根据ip进行hash可以解决session问题
  ````
 upstream backserver {
     ip_hash;
