@@ -14,7 +14,7 @@
 ##### [ES](es.md)
 ##### [git](git.md)
 ##### [nginx](nginx.md)
-##### kafka
+##### [kafka](kafka.md)
 ##### [rabbitmq](rabbitmq.md)
 # 项目
 ##### [问题](问题.md)
@@ -44,6 +44,7 @@
 18. 一亩田，卖菜的， 觉得还行，【一面挂】
 19. 掌上先机【一面】
 20. 小米商城【一面】
+21. 三节课【一面】
 
 #### 我的微信
 ![微信号](images/wechat/wechat.jpeg)
