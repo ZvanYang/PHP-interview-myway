@@ -1,1 +1,4 @@
 ![git](images/git/git.png)
+
+#git reset和git revert的区别是：
+reset是用来回滚的，将HEAD的指针指向了想要回滚的版本，作为最新的版本，而后面的版本也都没有了；而revert只是用来撤销某一次更改，对之后的更改并没有影响
