@@ -728,3 +728,10 @@ key。具体原因，待补充。
 
 ## struct和union的区别
 union是将几个不同类型的变量共占一块内存。struct是几个不同的类型整合为一个整体。
+
+## json和jsonp的区别
+json是一种静态数据格式。
+
+大家都知道script标签是可以跨域请求的，jsonp的原理就是通过script的src，将函数作为src请求地址的参数来传递数据，所以jsonp只有get一种传输方式。是动态的。
+
+https://www.jianshu.com/p/f46dd756873e

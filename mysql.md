@@ -484,3 +484,13 @@ select  where from updata delete drop truncate  create alter insert
 use table;
 show tables; show databases;
 
+# 解决死锁。
+1. 尽量以相同的顺序访问表。
+2. 
+
+# drop delete truncate
+drop 删除表和数据
+
+delete 删除数据  带where
+
+truncate  不带where 的删除，不太安全。
