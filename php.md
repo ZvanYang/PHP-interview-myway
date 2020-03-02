@@ -718,3 +718,13 @@ HashTable中另外一个非常重要的值arData，这个值指向存储元素�
 
 ## 数组通过key 查询比较快，还是通过value？
 key。具体原因，待补充。
+
+## php 的数据类型。
+基本数据结构  bool string int float
+
+两种特殊结构 array object
+
+两种特殊类型 resource null
+
+## struct和union的区别
+union是将几个不同类型的变量共占一块内存。struct是几个不同的类型整合为一个整体。
