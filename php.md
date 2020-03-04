@@ -39,7 +39,6 @@ array(3) {
 
 
 ##  以下会输出什么？
-
 ```
 <?php
 $a = array(1,2,3,4);
@@ -261,6 +260,10 @@ array_map
 array_filter
 array_diff
 array_walk
+array_column
+array_key_exists()
+array_count_values()
+
 ```
 10个字符串
 
@@ -735,3 +738,22 @@ json是一种静态数据格式。
 大家都知道script标签是可以跨域请求的，jsonp的原理就是通过script的src，将函数作为src请求地址的参数来传递数据，所以jsonp只有get一种传输方式。是动态的。
 
 https://www.jianshu.com/p/f46dd756873e
+
+## nginx 和apache的区别。
+nginx 相对 apache 的优点：
+轻量级，同样起web 服务，比apache 占用更少的内存及资源抗并发，
+nginx 处理请求是异步非阻塞的，
+而apache 则是阻塞型的，
+在高并发下nginx 能保持低资源低消耗高性能高度模块化的设计，
+编写模块相对简单社区活跃，各种高性能模块出品迅速啊
+配置起来比较简单
+静态文件处理、PHP-CGI的支持、反向代理功能、前端Cache、维持连接
+
+apache 相对nginx 的优点：
+rewrite ，比nginx 的rewrite 强大模块超多，基本想到的都可以找到少bug ，nginx 的bug 相对较多超稳定
+
+链接：https://www.zhihu.com/question/19571087/answer/12313829
+
+## 项目中常用的算法？
+1. 我觉得我没有用过。
+2. 递归可能用一些。
