@@ -757,3 +757,11 @@ rewrite ，比nginx 的rewrite 强大模块超多，基本想到的都可以找�
 ## 项目中常用的算法？
 1. 我觉得我没有用过。
 2. 递归可能用一些。
+
+# 单点登录
+1. 登录的时候，去验证中心获得一个唯一的ticket，然后保存在cookie里面。
+2. 登录其他子网站的时候，需要获取本地的cookie然后去验证中心去验证一下。
+3. 退出的时候，清除登录状态和本地唯一的ticket。
+
+// 删除session  '$_SESSION = array();'；
+empty($_SESSION) ? true : false;

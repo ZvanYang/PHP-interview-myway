@@ -82,7 +82,7 @@ grep "03/Mar/2020:1[7-8]" access.log | awk '{print $1}' | sort -n | uniq -c | so
 搜索多个文件并查找匹配文本在哪些文件中：
 
 grep -l "text" file1 file2 file3...
-
+````
 # 如何排查问题？
 1. cpu是否沾满，一般会是mysql的索引有问题
 2. NGINX的报错啊，502 504 等

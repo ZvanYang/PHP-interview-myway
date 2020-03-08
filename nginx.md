@@ -63,7 +63,7 @@ max_requests意味着，子进程处理多少请求之后，就会关闭。因�
 
 # NGINX的负载均衡
 ip hash 根据ip进行hash可以解决session问题
- ````
+````
 upstream backserver {
     ip_hash;
     server 192.168.0.14:88;
