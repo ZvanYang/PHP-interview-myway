@@ -295,7 +295,12 @@ innodb会默认选n个数据页去进行采样，然后乘以索引的数据页�
 标记为可复用，alter table t engine = innodb;  可以重建表。
 
 ## mysql where in (几个) where in (几万个) 有什么区别
+mysql --help | grep max-allowed-packet
+mysql: [Warning] World-writable config file '/usr/local/etc/my.cnf' is ignored.
+  --max-allowed-packet=#
+max-allowed-packet                16777216
 
+in 没有大小限制。但是受max-allowed-packet的限制，最多也就2000个吧
 ## 数据库设计规范
 1. 命名规范
 2. 索引设计，命名要规范

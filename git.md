@@ -16,3 +16,5 @@ git commit --amend  在一个commitid里面去添加补充。
 
 # 假如master刚合并了一个bug分支。
 git cherry-pick 4c805e2 可以将master 的内容给合并过来
+
+![](images/git/git1.png)
