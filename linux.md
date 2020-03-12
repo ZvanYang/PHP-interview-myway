@@ -80,7 +80,7 @@ grep "03/Mar/2020:1[7-8]" access.log | awk '{print $1}' | sort -n | uniq -c | so
    ````
 # grep
 搜索多个文件并查找匹配文本在哪些文件中：
-
+````
 grep -l "text" file1 file2 file3...
 ````
 # 如何排查问题？
@@ -88,3 +88,6 @@ grep -l "text" file1 file2 file3...
 2. NGINX的报错啊，502 504 等
 3. php-fpm 的慢日志查询
 4. MySQL的下游是否有问题。
+
+# sort 命令是怎么排序的？
+归并？ 还是快拍？
