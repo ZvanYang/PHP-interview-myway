@@ -157,7 +157,7 @@ copy on write。父进程会fork一个子进程，父进程和子进程共享内
 - bitmap  用来保存用户的登录信息，可以查询最近几个月的登录情况：bitop 可以用来做and or意味着有更多的选择。
 - pub/sub 发布订阅
 - stream
-- hyperloglog  布隆过滤器器（环东窗口）
+- hyperloglog  布隆过滤器器（滑动窗口）
 
 stream的备注：支持多播的可持久化的消息队列。
 Stream 的消费模型借鉴了 Kafka 的消费分组的概念，它弥补了 Redis Pub/Sub 不能持久化消息的缺陷。但是它又不同于 kafka，Kafka 的消息可以分 partition，而 Stream 不行。如果非要分 parition 的话，得在客户端做，提供不同的 Stream 名称，对消息进行 hash 取模来选择往哪个 Stream 里塞。
@@ -378,25 +378,18 @@ LRU 淘汰不一样，它的处理方式只有懒惰处理。当 Redis 执行写
 # 竟然问我redis set 和get为什么这么快
 就是hash计算啊
 
-# 再给出一波面试题
-0. 在集群模式下，Redis 的 Key 是如何寻址的？分布式寻址都有哪些算法？了解一致性 Hash 算法吗？
+# redis脑裂问题
+解决方案
+redis的配置文件中，存在两个参数
+````
+min-slaves-to-write 3
+min-slaves-max-lag 10
+````
+第一个参数表示连接到master的最少slave数量
 
-1. 使用Redis有哪些好处？
+第二个参数表示slave连接到master的最大延迟时间
 
-2. Redis相比Memcached有哪些优势？
+如果连接到master的slave数量小于第一个参数，且ping的延迟时间小于等于第二个参数，那么master就会拒绝写请求，配置了这两个参数之后，如果发生集群脑裂，原先的master节点接收到客户端的写入请求会拒绝，就可以减少数据同步之后的数据丢失。
 
-3. Redis常见性能问题和解决方案
-
-4. MySQL里有2000w数据，Redis中只存20w的数据，如何保证Redis中的数据都是热点数据？
-
-5. Memcache与Redis的区别都有哪些？
-
-6. Redis 常见的性能问题都有哪些？如何解决？
-
-7. 在什么样的场景下可以充分的利用Redis的特性，大大提高Redis的效率？
-8. Redis的缓存雪崩、穿透、击穿了解么？有什么异同点？分别怎么解决？
-9. Redis的基本类型有哪些？他们的使用场景了解么？比较高级的用法你使用过么？
-10. Redis主从怎么同步数据的？集群的高可用怎么保证？持久化机制了解么？
-11. 为什么 redis 单线程却能支撑高并发？
-12. 如何保证缓存和数据库数据的一致性？
-13. 项目中是怎么用缓存的，用了缓存之后会带来什么问题？
+# redis 连接函数 
+pconnect connect

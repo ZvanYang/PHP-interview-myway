@@ -572,3 +572,23 @@ MySQL的锁机制，就是数据库为了保证数据的一致性而设计的面
 7. 数据库主备——解决数据高可用的问题
 8. 数据库读写分离——解决数据库压力的问题
 9. 数据库分库分表——解决数据量大的问题
+
+# sql 优化题
+````
+select * from  order where status in （2,3,4,5） and price>0 and channel is null limit 10;
+````
+SQL很慢，且没有索引，也不让修改表结构，该怎么办？
+
+那就是每次通过id去查询，然后记录id值，这样的话，是能命中id这个索引的， 查询效率还是比较高的。
+
+# mysql 保存表情
+MYSQL_CHARSET = 'utf8mb4' 将字符集改为utf8mb4就可以了。
+
+# 按各个省份前三名的城市数量人口 MySQL
+select a.province, a.city from table where (select * from table where province = a.province group by city) limit 3;
+
+
+mysql实现分组查询每个班级的前三名
+
+select a.class,a.score from student a where (select count(*) from student where a.class=class and a.score<score)<3
+order by a.class, a.score desc;

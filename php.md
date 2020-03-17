@@ -795,3 +795,23 @@ $a ?: 0 等同于 $a ? $a : 0。
 https://github.com/huqinlou0123/php-internals-extended-development-course/blob/master/1-3-2:%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2.md
 
 https://github.com/pangudashu/php7-internal/blob/master/2/zend_ht.md
+
+# PHP全局变量
+
+# PHP获取header
+
+# PHP 获取body。utm字符串。
+
+# PHP array的数据结构，如何解决hash冲突。
+hash是使用的链表。
+
+散列表的实现的方法：链地址法。冲突会进行链表的连接。
+
+# http的状态码。
+
+# http header 常用的字段。
+
+# 三次握手，四次挥手  以及原因。
+
+# tcp是不是全双工通信。
+
