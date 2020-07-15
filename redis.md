@@ -393,3 +393,31 @@ min-slaves-max-lag 10
 
 # redis 连接函数 
 pconnect connect
+
+# redis rdb持久化机制【作业帮】
+
+save 900 1  900秒（15分钟）内有1个更改就同步
+save 300 10 300秒（5分钟）内有10个更改就同步
+save 60 10000   60秒内有10000个更改就同步
+
+# redis aof 持久化机制
+appendfsync=always 每次同步 安全最高，最多丢失一个写入的数据
+appendfsync=everysec 每秒同步 安全最折中，最多丢失1S的数据
+appendfsync=no 安全最低，最多上一次保存AOF文件到当前时刻的全部数据
+
+# 跳跃表的时间复杂度
+一般是O(logn)  最差是 O(n)
+
+# redis 集群
+
+# codis 方案
+
+集群模式—Codis
+
+数据分片策略对客户端透明
+Zookeeper作为name server
+提供支持Redis协议的Proxy 
+Proxy负责请求路由
+
+
+

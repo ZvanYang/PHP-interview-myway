@@ -592,3 +592,7 @@ mysql实现分组查询每个班级的前三名
 
 select a.class,a.score from student a where (select count(*) from student where a.class=class and a.score<score)<3
 order by a.class, a.score desc;
+
+# MySQL如何保证 事务
+
+https://www.cnblogs.com/jianzh5/p/11643151.html
