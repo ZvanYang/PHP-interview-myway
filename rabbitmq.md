@@ -32,3 +32,9 @@
 # 你用过kafka没有？？知道原理不？
 
 
+# rabbitmq和rocketmq的区别？
+![](rabbitmq/rabbitmq1.png)
+
+![](rabbitmq/rabbitmq2.png)
+
+![](rabbitmq/rabbitmq3.png)
