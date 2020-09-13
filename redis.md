@@ -419,5 +419,6 @@ Zookeeper作为name server
 提供支持Redis协议的Proxy 
 Proxy负责请求路由
 
+# 跳跃表 插入和删除的时间复杂度
 
 
