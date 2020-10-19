@@ -93,6 +93,7 @@ grep -l "text" file1 file2 file3...
 归并？ 还是快拍？
 
 # 看端口是否被调用
+lsof :9000 用来查看端口是否在被使用
 
 # 看cpu或者内存
 top 查看cpu占用最高的进程。
