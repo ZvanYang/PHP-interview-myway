@@ -138,11 +138,56 @@ for i in range(20):
 # 单台机器的话，使用.
 set  nx就可以了。
 需要考虑加锁时间过长的问题。
-还要考虑加锁之后，进程突然挂掉的话，锁无法释放。所以，使用setnx 的时候注意一下。
+还要考虑加锁之后，进程突然挂掉的话，锁无法释放。所以，使用setnx 的时候注意一下。可以给相应的key加一个过期时间。
+
+还有一种情况A设置了锁，但是被B给DEL掉了，这个时候C可以加锁成功。这时A和C都加锁成功，可以使用共享数据。这个时候在客户端加锁的时候，可以使用不同的value。
+
+````
+// 加锁, unique_value作为客户端唯一性的标识
+SET lock_key unique_value NX PX 10000
+
+
+//释放锁 比较unique_value是否相等，避免误释放
+if redis.call("get",KEYS[1]) == ARGV[1] 
+    then return redis.call("del",KEYS[1])
+else 
+    return 0
+end
+
+// 执行lua脚本
+redis-cli --eval unlock.script lock_key , unique_value
+````
 
 还有就是在分布式的时候，在master上面加了锁之后master挂掉之后，会被其他进程给加锁，这个时候就出现了多个锁的情况。
 
 这种情况下， redlock算法就出来了。就是会向所有的实例去发起加锁的请求，只要过半以上同意了就算加锁成功了，此时，向所有节点发送del的请求。
+
+redlock的逻辑，需要有N个独立的redis实例：
+1. 客户端获取当前时间
+2. 客户端依次向N个redis 实例进行加锁操作。使用 SET 命令，带上 NX，EX/PX 选项，以及带上客户端的唯一标识。加锁的超时时间要远远小于锁的有效时间。
+3. 一旦客户端完成了所有redis实例 的加锁操作，客户端要计算加锁的总耗时。满足以下两个条件就算加锁成功。
+
+      （1）客户端从超过半数以上（N/2 + 1）的redis实例成功获取了锁。
+   
+      (2) 客户端的总耗时没有超过锁的有效时间。
+
+是否可以使用以下命令完成redis的加锁操作呢？
+````
+// 加锁
+SETNX  lock_key unique_value
+EXPIRE lock_key 10S
+// 业务逻辑DO THINGS
+
+````
+答案是不可以。
+
+若SETNX 执行成功后，网络抖动，expire没有执行。
+
+若setnx 之后之后，redis 客户端崩溃，expire没有执行。
+
+若setnx之后，客户端崩溃，expire 没有执行。
+
+这几种情况，都会导致这个锁不能释放。
 
 # ROB的原理
 copy on write。父进程会fork一个子进程，父进程和子进程共享内存空间。父进程继续提供读写服务，写脏的页面数据会继续和子进程区分开来。
@@ -427,5 +472,35 @@ Zookeeper作为name server
 Proxy负责请求路由
 
 # 跳跃表 插入和删除的时间复杂度
+
+# redis如何实现ACID
+redis 可以实现原子性，一致性，隔离性。但是不能保证持久性。
+
+原子性，multi会先把命令放到队列里面，然后exec执行命令。
+````
+
+#开启事务
+127.0.0.1:6379> MULTI
+OK
+#将a:stock减1，
+127.0.0.1:6379> DECR a:stock
+QUEUED
+#将b:stock减1
+127.0.0.1:6379> DECR b:stock
+QUEUED
+#实际执行事务
+127.0.0.1:6379> EXEC
+1) (integer) 4
+2) (integer) 9
+````
+* 命令入队时就报错，会放弃事务执行，保证原子性；
+* 命令入队时没报错，实际执行时报错，不保证原子性；
+* EXEC 命令执行时实例故障，如果开启了 AOF 日志，可以保证原子性。redis-check-aof检查aof文件，可以把已执行的事务操作从aof文件中删除。
+
+
+一致性
+
+隔离性 watch机制。
+
 
 
