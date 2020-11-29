@@ -295,6 +295,24 @@ innodb会默认选n个数据页去进行采样，然后乘以索引的数据页�
 标记为可复用，alter table t engine = innodb;  可以重建表。
 
 ## mysql where in (几个) where in (几万个) 有什么区别
+select * from single_table where key1 in ('aa), 'aa1', 'aa2', ..., 'zz100');
+
+mysql在5.7.3之前的版本是的eq_range_index_dive_limit的默认值是10，在5.7.3之后是200.
+
+当in语句的单点区间数量大于等于eq_range_index_dive_limit的值时，就不会使用index dive来计算各个单点区间对应的索引记录条数，而是使用索引统计数据。
+
+例如rows是9693，key1列的不重复值为968，所以key1列的平均重复次数为：9693/968 = 10条。
+
+当in的数量为20000个时，意味着有20000个单点区间的时候，就直接使用统计数据来估算对应的记录条数。每个区间对应10条，对应的回表记录数就是20000 * 10 = 200000条。
+
+当in的数量为几个的时候，由于key1列只是一个普通索引的话，每个单点的值对应多少条记录并不确定。计算方式就是直接获取索引对应的B+树的区间最左记录和区间最右记录，然后再计算这两条记录之间有多少条记录。
+
+这种直接访问索引对应B+树来计算某个扫描区间内对应的索引记录条数的方式就是index dive
+
+内容来自《MySQL是怎样运行的》
+
+---
+
 mysql --help | grep max-allowed-packet
 mysql: [Warning] World-writable config file '/usr/local/etc/my.cnf' is ignored.
   --max-allowed-packet=#
