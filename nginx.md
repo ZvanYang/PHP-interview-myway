@@ -51,6 +51,8 @@ client_max_body_size 10M 设置上传文件大小限制
 proxy_read_timeout 60
 proxy_send_timeout 60
 
+从网络角度，502已经与后端建立了连接，但超时；504与后端连接未建立，超时。
+
 # 如果包含正在处理的进程，会报什么错误？【百度面试】
 ```
 <?php

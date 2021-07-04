@@ -1,6 +1,6 @@
 # 常见数据问题
 
-###1. 布隆过滤器是什么？
+### 1.布隆过滤器是什么？
 
 对一个值，进行多次hash，然后将对应位置的hash值置为1，就代表着个值，同时查询的时候计算多次，然后只要有一个位置为0，说明就是不存在。
 
@@ -47,16 +47,16 @@
 
 ### 3. 哈希表的扩展与收缩
 
-当没有bgsave 和BGREWRITEAOF 的时候，负载因子为1。当有bgsave 和bswriteaof的时候，负载因为大于5。负载因子 = 哈希表已保存节点数量 / 哈希表大小load_factor = ht[0].used / ht[0].size。
+当没有bgsave 和BGREWRITEAOF 的时候，负载因子为1。当有bgsave 和bswriteaof的时候，负载因为大于5。负载因子 = 哈希表已保存节点数量 / 哈希表大小`load_factor = ht[0].used / ht[0].size`。
 
 ### 4. redis过期提供了几种可选策略
 
-- noeviction 不会继续服务写请求 (DEL 请求可以继续服务)，读请求可以继续进行。这样可以保证不会丢失数据，但是会让线上的业务不能持续进行。这是默认的淘汰策略。
-- volatile-lru 尝试淘汰设置了过期时间的 key，最少使用的 key 优先被淘汰。没有设置过期时间的 key 不会被淘汰，这样可以保证需要持久化的数据不会突然丢失。
-- volatile-ttl 跟上面一样，除了淘汰的策略不是 LRU，而是 key 的剩余寿命 ttl 的值，ttl 越小越优先被淘汰。
-- volatile-random 跟上面一样，不过淘汰的 key 是过期 key 集合中随机的 key。
-- allkeys-lru 区别于 volatile-lru，这个策略要淘汰的 key 对象是全体的 key 集合，而不只是过期的 key 集合。这意味着没有设置过期时间的 key 也会被淘汰。
-- allkeys-random 跟上面一样，不过淘汰的策略是随机的 key。
+- `noeviction` 不会继续服务写请求 (DEL 请求可以继续服务)，读请求可以继续进行。这样可以保证不会丢失数据，但是会让线上的业务不能持续进行。这是默认的淘汰策略。
+- `volatile-lru` 尝试淘汰设置了过期时间的 key，最少使用的 key 优先被淘汰。没有设置过期时间的 key 不会被淘汰，这样可以保证需要持久化的数据不会突然丢失。
+- `volatile-ttl` 跟上面一样，除了淘汰的策略不是 LRU，而是 key 的剩余寿命 ttl 的值，ttl 越小越优先被淘汰。
+- `volatile-random` 跟上面一样，不过淘汰的 key 是过期 key 集合中随机的 key。
+- `allkeys-lru` 区别于 volatile-lru，这个策略要淘汰的 key 对象是全体的 key 集合，而不只是过期的 key 集合。这意味着没有设置过期时间的 key 也会被淘汰。
+- `allkeys-random` 跟上面一样，不过淘汰的策略是随机的 key。
 
 ### 5. redis的LRU删除机制
 
@@ -102,9 +102,11 @@ redis cluster 着眼于可扩展。当单个redis不足时，使用cluster进行
 Redis 支持主从同步，提供 Cluster 集群部署模式，通过 Sentine l哨兵来监控 Redis 主服务器的状态。当主挂掉时，在从节点中根据一定策略选出新主，并调整其他从 slaveof 到新主。
 
 选主的策略简单来说有三个：
-slave 的 priority 设置的越低，优先级越高；
-同等情况下，slave 复制的数据越多优先级越高；
-相同的条件下 runid 越小越容易被选中。
+
+- slave 的 priority 设置的越低，优先级越高；
+- 同等情况下，slave 复制的数据越多优先级越高；
+- 相同的条件下 runid 越小越容易被选中。
+
 在 Redis 集群中，sentinel 也会进行多实例部署，sentinel 之间通过 Raft 协议来保证自身的高可用。
 
 ### 12. redis的Sentinal哨兵模式。

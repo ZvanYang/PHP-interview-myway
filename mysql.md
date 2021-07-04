@@ -92,6 +92,8 @@ delete 删除数据  带where
 
 truncate  不带where 的删除，不太安全。
 
+
+
 ## MySQL索引
 
 #### 1. 索引设计成树形，和SQL的需求相关。为什么不是哈希。
@@ -238,6 +240,8 @@ ALTER TABLE tbl_name WAIT N add column ...
 
 
 #### 5、mysql的悲观锁和乐观锁区别和应用，ABA问题的解决
+
+
 
 
 #### 6. 死锁
@@ -415,7 +419,7 @@ innodb，还有就是可以根据时间做分表。还有就是加索引。
 #### 9. 什么样的select是快照读？InnoDB并发如此之高
 除非显示加锁，普通的select语句都是快照读，例如：
 select * from t where id>2;
- 
+
 这里的显示加锁，非快照读是指：
 
 ```
