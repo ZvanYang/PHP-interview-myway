@@ -120,20 +120,6 @@ FastCGI 与传统 CGI 模式的区别之一则是 Web 服务器不是直接执�
 Web 守护进程 fork 一个子进程，然后在子进程中执行 user 程序，通过环境变量获取到id。
 执行完毕之后，将结果通过标准输出返回到子进程。
 子进程将结果返回给客户端。
-# fpm
-fpm的master通过【共享内存】与worker进行通信，同时监听worker 的状态，已处理请求数。要杀死一个worker通过发送信号的方式来实现。
-fpm的master进程与worker进程之间不会直接进行通信，master通过共享内存获取worker进程的信息，比如worker进程当前状态、已处理请求数等，当master进程要杀掉一个worker进程时则通过发送信号的方式通知worker进程。
-![交互流程](images/nginx/fastcgi.png)
-![执行过程](images/nginx/工作模式.png)
-
-# fpm进程管理
-介绍下三种不同的进程管理方式：
-1. static: 这种方式比较简单，在启动时master按照pm.max_children配置fork出相应数量的worker进程，即worker进程数是固定不变的
-2. dynamic: 动态进程管理，首先在fpm启动时按照pm.start_servers初始化一定数量的worker，运行期间如果master发现空闲worker数低于pm.min_spare_servers配置数(表示请求比较多，worker处理不过来了)则会fork worker进程，但总的worker数不能超过pm.max_children，如果master发现空闲worker数超过了pm.max_spare_servers(表示闲着的worker太多了)则会杀掉一些worker，避免占用过多资源，master通过这4个值来控制worker数
-3. ondemand: 这种方式一般很少用，在启动时不分配worker进程，等到有请求了后再通知master进程fork worker进程，总的worker数不超过pm.max_children，处理完成后worker进程不会立即退出，当空闲时间超过pm.process_idle_timeout后再退出
-
-worker会将自己的状态更新到fpm_scoreboard_proc_s->request_stage，master就是通过这个字段来判断worker是否是空闲。
-
 # PHP的四种工作模式
 1. cgi 通用网关接口（Common Gateway Interface）
 1. fast-cgi 常驻（long-live）型的 CGI
@@ -152,3 +138,34 @@ reload --重新加载，reload会重新加载配置文件，Nginx服务不会中
 
 restart --重启（先stop后start），会重启Nginx服务。这个重启会造成服务一瞬间的中断，如果配置文件出错会导致服务启动失败，那就是更长时间的服务中断了。
 所以，如果是线上的服务，修改的配置文件一定要备份。为了保证线上服务高可用，最好使用reload。
+
+
+
+# NGINX进程模式
+
+![http://tengine.taobao.org/book/_images/chapter-2-1.PNG](http://tengine.taobao.org/book/_images/chapter-2-1.PNG)
+
+在nginx启动后，如果我们要操作nginx，要怎么做呢？从上文中我们可以看到，master来管理worker进程，所以我们只需要与master进程通信就行了。master进程会接收来自外界发来的信号，再根据信号做不同的事情。所以我们要控制nginx，只需要通过kill向master进程发送信号就行了。比如kill -HUP pid，则是告诉nginx，从容地重启nginx，我们一般用这个信号来重启nginx，或重新加载配置，因为是从容地重启，因此服务是不中断的。master进程在接收到HUP信号后是怎么做的呢？首先master进程在接到信号后，会先重新加载配置文件，然后再启动新的worker进程，并向所有老的worker进程发送信号，告诉他们可以光荣退休了。新的worker在启动后，就开始接收新的请求，而老的worker在收到来自master的信号后，就不再接收新的请求，并且在当前进程中的所有未处理完的请求处理完成后，再退出。当然，直接给master进程发送信号，这是比较老的操作方式，nginx在0.8版本之后，引入了一系列命令行参数，来方便我们管理。比如，./nginx -s reload，就是来重启nginx，./nginx -s stop，就是来停止nginx的运行。如何做到的呢？我们还是拿reload来说，我们看到，执行命令时，我们是启动一个新的nginx进程，而新的nginx进程在解析到reload参数后，就知道我们的目的是控制nginx来重新加载配置文件了，它会向master进程发送信号，然后接下来的动作，就和我们直接向master进程发送信号一样了。
+
+现在，我们知道了当我们在操作nginx的时候，nginx内部做了些什么事情，那么，worker进程又是如何处理请求的呢？我们前面有提  到，worker进程之间是平等的，每个进程，处理请求的机会也是一样的。当我们提供80端口的http服务时，一个连接请求过来，每个进程都有可能处理这个连接，怎么做到的呢？首先，每个worker进程都是从master进程fork过来，在master进程里面，先建立好需要listen的socket（listenfd）之后，然后再fork出多个worker进程。所有worker进程的listenfd会在新连接到来时变得可读，为保证只有一个进程处理该连接，所有worker进程在注册listenfd读事件前抢accept_mutex，抢到互斥锁的那个进程注册listenfd读事件，在读事件里调用accept接受该连接。当一个worker进程在accept这个连接之后，就开始读取请求，解析请求，处理请求，产生数据后，再返回给客户端，最后才断开连接，这样一个完整的请求就是这样的了。我们可以看到，一个请求，完全由worker进程来处理，而且只在一个worker进程中处理。[节选自PHP7内核剖析]
+
+
+
+# NGINX的全局变量
+
+$host
+
+$remote_addr
+
+$http_cookie
+
+$remote_port
+
+$server_addr
+
+$server_name
+
+$server_port
+
+
+
