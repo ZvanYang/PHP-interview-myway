@@ -1,29 +1,60 @@
-## Welcome to GitHub Pages
+## 欢迎查看
 
 You can use the [editor on GitHub](https://github.com/ZvanYang/PHP-interview-myway/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### 内容
 
 ```markdown
-Syntax highlighted code block
+# 计算机基础
 
-# Header 1
-## Header 2
-### Header 3
+##### [计算机网络](计算机网络.md)
 
-- Bulleted
-- List
+##### [设计模式](设计模式.md)
 
-1. Numbered
-2. List
+##### [高并发](高并发.md)
 
-**Bold** and _Italic_ and `Code` text
+##### [算法题](算法题.md)
 
-[Link](url) and ![Image](src)
+##### [操作系统]()
+
+
+# 开发工具
+
+##### [redis](redis.md)
+
+##### [php](php.md)
+
+##### [MySQL](mysql.md)
+
+##### [ES](es.md)
+
+##### [git](git.md)
+
+##### [nginx](nginx.md)
+
+##### [kafka](kafka.md)
+
+##### **[rabbitmq](rabbitmq.md)**
+
+**[fpm](fpm.md)**
+
+**[go](go.md)**
+
+
+
+# 架构
+
+[架构](架构.md)
+
+# 项目
+
+##### [问题](问题.md)
+
+##### [项目介绍](项目介绍.md)
+
+##### [项目设计](项目设计.md)
 ```
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
