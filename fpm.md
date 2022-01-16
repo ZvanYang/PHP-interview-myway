@@ -1,4 +1,4 @@
-# fpm进程管理
+# Fpm进程管理
 
 介绍下三种不同的进程管理方式：
 
@@ -14,7 +14,7 @@ worker会将自己的状态更新到fpm_scoreboard_proc_s->request_stage，maste
 2. 动态模式，动态扩容， 不浪费资源；缺点：所有worker都在工作，新的请求到来需要等待创建worker进程，最长等待1s
 3. 按需分配，会更节省资源。但是大流量下会使master变得很忙碌。
 
-# fpm与NGINX的通信
+# pm与NGINX的通信
 
 fpm的master通过【共享内存】与worker进行通信，同时监听worker 的状态，已处理请求数。要杀死一个worker通过发送信号的方式来实现。
 fpm的master进程与worker进程之间不会直接进行通信，master通过共享内存获取worker进程的信息，比如worker进程当前状态、已处理请求数等，当master进程要杀掉一个worker进程时则通过发送信号的方式通知worker进程。

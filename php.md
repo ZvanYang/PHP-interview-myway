@@ -429,7 +429,7 @@ var_dump(empty(array(array())));
 ##  以下语句输出的结果是什么
 setcookie("a","value");
 print $_COOKIE['a'];
- 
+
 得到的结果是：
 value(若只是这两段编码运行，则会提示PHP Notice: Undefined index: a)
 ##  php中将当前页面重定向到另一个页面怎么写？
@@ -610,17 +610,6 @@ class ListNode {
 ##  php保存序列化对象到session中，并可以从session中获取序列化对象的值，用什么序列化函数？
 
 • serialize()函数序列化对象; unserialize()函数还原序列化对象。
-## .php的缓存机制，举例说明？
-
-
-
-## .如何构建1千万点击率的网站？
-
-1. 数据库主从
-2. NGINX负载均衡
-3. redis
-4.。 cdn
-
 ## .以下php程序的结果
 
 ```
@@ -631,12 +620,6 @@ unset($b);
 $b="world";
 $a=? ; =>"hello"
 ```
-## .APP_ID APP_SECRET 
-可以通过这些，去获得授权。
-
-## .JSON 和 JSONP 的区别
-json是中数据格式
-jsonp是一种非官方数据交互协议。
 ## .JWT
 用户B 你好，用户A，我想要操作jwt内容，这是我的凭证。
 ## .php中的文件读写操作，读取文件test.txt中前300字节的内容？
@@ -651,7 +634,7 @@ $_SERVER['REMOTE_ADDR'] 客户端IP，有可能是用户的IP，也可能是代�
 $_SERVER['HTTP_CLIENT_IP'] 代理端的IP，可能存在可伪造。
 
  $_SERVER['HTTP_X_FORWARDER_FOR'] 用户是在哪个IP使用的代理，可能存在，可以伪造。（这个应该是客户端的真是IP）
- 
+
  $_SERVER['SERVER_ADDR'] 获取服务器端IP（获取服务器端的IP）
 
 ## .PHP中对象的深拷贝与浅拷贝
@@ -731,31 +714,6 @@ key。具体原因，待补充。
 
 两种特殊类型 resource null
 
-## struct和union的区别
-union是将几个不同类型的变量共占一块内存。struct是几个不同的类型整合为一个整体。
-
-## json和jsonp的区别
-json是一种静态数据格式。
-
-大家都知道script标签是可以跨域请求的，jsonp的原理就是通过script的src，将函数作为src请求地址的参数来传递数据，所以jsonp只有get一种传输方式。是动态的。
-
-https://www.jianshu.com/p/f46dd756873e
-
-## nginx 和apache的区别。
-nginx 相对 apache 的优点：
-轻量级，同样起web 服务，比apache 占用更少的内存及资源抗并发，
-nginx 处理请求是异步非阻塞的，
-而apache 则是阻塞型的，
-在高并发下nginx 能保持低资源低消耗高性能高度模块化的设计，
-编写模块相对简单社区活跃，各种高性能模块出品迅速啊
-配置起来比较简单
-静态文件处理、PHP-CGI的支持、反向代理功能、前端Cache、维持连接
-
-apache 相对nginx 的优点：
-rewrite ，比nginx 的rewrite 强大模块超多，基本想到的都可以找到少bug ，nginx 的bug 相对较多超稳定
-
-链接：https://www.zhihu.com/question/19571087/answer/12313829
-
 ## 项目中常用的算法？
 1. 我觉得我没有用过。
 2. 递归可能用一些。
@@ -784,11 +742,6 @@ isset($arr["one"]); // true
 isset($arr["two"]); // true 
 isset($arr["three"]); // false
 ````
-# ?? 和?:（自5.3之后就可以简写了）
-$a ?? 0 等同于 isset($a) ? $a : 0。
-
-$a ?: 0 等同于 $a ? $a : 0。
-
 # 数组的底层实现
 数组是PHP中非常强大、灵活的一种数据类型，它的底层实现为散列表(HashTable，也称作：哈希表)。
 ![](images/php/php.png)
@@ -796,22 +749,5 @@ https://github.com/huqinlou0123/php-internals-extended-development-course/blob/m
 
 https://github.com/pangudashu/php7-internal/blob/master/2/zend_ht.md
 
-# PHP全局变量
-
-# PHP获取header
-
-# PHP 获取body。utm字符串。
-
-# PHP array的数据结构，如何解决hash冲突。
-hash是使用的链表。
-
-散列表的实现的方法：链地址法。冲突会进行链表的连接。
-
-# http的状态码。
-
-# http header 常用的字段。
-
-# 三次握手，四次挥手  以及原因。
-
-# tcp是不是全双工通信。
+# 
 
