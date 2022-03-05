@@ -469,7 +469,7 @@ all 全表查询。index是使用的索引。range也相当于是范围查询，
 
 #### 17. possible_key 可能用到的索引
 
-#### e18. xtra 详情吧？？
+#### 18. extra 详情吧？？
 1. Using where:不用读取表中所有信息，仅通过索引就可以获取所需数据，这发生在对表的全部的请求列都是同一个索引的部分的时候，表示mysql服务器将在存储引擎检索行后再进行过滤
 2. Using temporary：表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询，常见 group by ; order by
 3. Using filesort：当Query中包含 order by 操作，而且无法利用索引完成的排序操作称为“文件排序”

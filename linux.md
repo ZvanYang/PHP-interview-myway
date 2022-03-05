@@ -1,4 +1,9 @@
+[toc]
+
+
+
 ## 查询一个日志文件中访问次数最多前10个IP？
+
 第一步：按照IP进行将记录排序。
 第二步：按照IP去重，并且显示重复次数
 第三步：按照次数升序排列
@@ -77,7 +82,7 @@ https://codante.org/blog/post/service-log-common-commands/#%E6%9F%A5%E7%9C%8B%E6
 grep "03/Mar/2020:1[7-8]" access.log | awk '{print $1}' | sort -n | uniq -c | sort -nr | head -n 100
 
    3 127.0.0.1
-   ````
+````
 # grep
 搜索多个文件并查找匹配文本在哪些文件中：
 ````
